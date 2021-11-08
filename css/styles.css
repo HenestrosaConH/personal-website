@@ -1,0 +1,112 @@
+html {
+	font-family: 'Fira Mono', sans-serif;
+	box-sizing: border-box;
+	font-size: 12px;
+}
+
+*, *:before, *:after {
+  box-sizing: inherit;
+}
+
+@media (min-width: 576px) {
+	html {
+		font-size: 14px;
+	}
+}
+
+@media (min-width: 768px) {
+	html {
+		font-size: 16px;
+	}
+}
+
+@media (min-width: 992px) {
+	html {
+		font-size: 18px;
+	}
+}
+
+@media (min-width: 1200px) {
+	html {
+		font-size: 20px;
+	}
+}
+
+body, h1, h2, h3, h4, h5, h6, p, ol, ul {
+  margin: 0;
+  padding: 0;
+  font-weight: normal;
+}
+
+ol, ul {
+  list-style: none;
+}
+
+.index-background {
+	background-color: #516693;
+}
+
+.personal-background {
+	background-color: #802A44;
+}
+
+.error-background {
+	background-color: #E34940;
+}
+
+main {
+	color: #FAFAFA;
+	display: flex;
+	flex-direction: column;
+    justify-content: center;
+	min-height: 100vh;
+	padding: 0 30px;
+	text-align: center;
+}
+
+.content > .intro {
+	font-family: 'Fira Mono', sans-serif;
+	font-size: 3.75em;
+	font-weight: 600;
+	text-transform:uppercase;
+}
+
+.content > .intro > span {
+	display: inline-block;
+}
+
+.content > .tagline {
+	font-size: 2.0rem;
+    font-weight: 100;
+	margin: 1.5rem 0;
+}
+
+.icons-social i {
+	padding: 10px;
+	font-size: 3em;
+}
+
+.icons-social a {
+	color: #FAFAFA;
+}
+
+.navigation{
+	margin-top: 1.5rem;
+	text-transform: uppercase;
+}
+
+.no-link {
+    color:#FAFAFA;
+}
+
+a {
+	color: #E6B4A8;
+}
+
+footer {
+	color: #E6B4A8;
+	width:100%;
+	text-align:center;
+	line-height:1.75rem;
+	margin-top:1rem;
+}
