@@ -54,7 +54,9 @@ ul {
 	list-style: none;
 }
 
-
+.index-background {
+	background-color: #516693;
+}
 
 .personal-background {
 	background-color: #802A44;
@@ -64,34 +66,8 @@ ul {
 	background-color: #E34940;
 }
 
-/* Solid color alternative
-.index-background {
-	background-color: #516693;
-}
-*/
-
-.index-background {
-	top: 0;
-	bottom: 0;
-	position: fixed;
-	left: 0;
-	right: 0;
-	height: 100%;
-	z-index: 1;
-	background-image: url('../img/index.jpg');
-	background-repeat: no-repeat;
-	background-attachment: fixed;
-	background-size: cover;
-	background-position: center;
-	filter: brightness(65%);
-}
-
-.content {
-	left: 0;
-	right: 0;
-	position: fixed;
+main {
 	color: #FAFAFA;
-	z-index: 2;
 	display: flex;
 	flex-direction: column;
 	justify-content: center;
