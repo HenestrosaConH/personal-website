@@ -49,14 +49,18 @@ ul {
 	font-weight: normal;
 }
 
+body {
+	background-color: black;
+}
+
 ol,
 ul {
 	list-style: none;
 }
 
-.personal-background {
+/*.personal-background {
 	background-color: #802A44;
-}
+}*/
 
 .error-background {
 	background-color: #E34940;
@@ -85,14 +89,15 @@ ul {
 	right: 0;
 	height: 100%;
 	width: 100%;
+}
 
-	background-image: url('../img/index.jpg');
+.content--personal::before {
+	background-image: url('../img/personal.jpg');
 	background-repeat: no-repeat;
 	background-attachment: fixed;
 	background-size: cover;
 	background-position: center;
-
-	filter: brightness(65%);
+	filter: brightness(50%);
 }
 
 .content>.intro {
@@ -131,11 +136,10 @@ ul {
 }
 
 a {
-	color: #E6B4A8;
+	color: #FFFFFF;
 }
 
 footer {
-	color: #E6B4A8;
 	width: 100%;
 	text-align: center;
 	line-height: 1.75rem;

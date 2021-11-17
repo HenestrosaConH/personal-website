@@ -45,8 +45,171 @@
 			<a href="mailto:henestrosaconh@gmail.com">henestrosaconh@gmail.com</a>
 			<br />
 			<p>©2021</p>
+		</footer>
 	</div>
-	</footer>
+	<canvas id=q style='height:100%; width:100%'/>
+	<script>
+		var backgroundcolor = [0,0,0];
+		var opacity = 0.05;
+		var symbolcolor = [0,255,0];
+		const symbolopacity = 1;
+		var updatespeed = 33;
+		var fallingspeed = 10;
+		var scaling = 1;
+		var fadeoutheight = 2;
+		var defaultChars = true;
+		var charArray = ["0","1"];
+		var spacing = 10;
+		var randomness = 0.2;
+		
+		var enablemouse = false, mousespeed = 0.5, mousewidth = 0.2;
+		var mouseX = 0, mouseY = 0;
+		
+		let defaultlines = 128;
+		function calculateDefaultLines() {
+			defaultlines = Math.ceil(window.innerWidth / spacing / scaling);
+		}
+		calculateDefaultLines();
+		
+		var autolines = true;
+		function updateLines() {
+			if (autolines) {
+				calculateDefaultLines();
+				setuplinearray(defaultlines);
+			} else {
+				setUserDefinedLines(userdefinedlines);
+			}
+		}
+		
+		var linearray = [];
+		var linespeedarray = [];
+		function setuplinearray(lines) {
+			while (lines > linearray.length)
+				linearray.push(1);
+			linearray.length = lines;
+			while (lines > linespeedarray.length)
+				linespeedarray.push(0);
+			linespeedarray.length = lines;
+			for (let i = 0; i < lines; i++) 
+				linespeedarray[i] = Math.random();
+		}
+		setuplinearray(defaultlines);
+		
+		var userdefinedlines = defaultlines;
+		function setUserDefinedLines(lines) {
+			userdefinedlines = lines;
+			if (!autolines) setuplinearray(userdefinedlines);
+		}
+		
+		var intervalhandle = null;
+		
+		function getRandomChar() {
+			if (defaultChars) {
+				return String.fromCharCode(Math.floor(2720+Math.random()*33));
+			} else {
+				return charArray[Math.floor(Math.random()*charArray.length)];
+			}
+		}
+		
+		function nominaldistribution(x,c,h,w) {
+			return h * Math.pow(Math.E, (-0.5*Math.pow(((x-c)/w),2)));
+		}
+		
+		function startAnimation() {
+			if (intervalhandle != null) clearInterval(intervalhandle);
+			var q=document.getElementById('q'),
+			s=window,
+			w=q.width=s.innerWidth/scaling,
+			h=q.height=s.innerHeight/scaling,
+			c=q.getContext('2d'),
+			m=Math;
+			intervalhandle = setInterval(function(){
+				c.fillStyle='rgba('+backgroundcolor[0]+','+backgroundcolor[1]+','+backgroundcolor[2]+','+opacity+')';
+				c.fillRect(0,0,w,h);
+				c.fillStyle='rgba('+symbolcolor[0]+','+symbolcolor[1]+','+symbolcolor[2]+','+symbolopacity+')';
+				linearray=linearray.map(function(v,i){
+					r=m.random();
+					c.fillText(
+						getRandomChar(), i*spacing, v
+					);
+					let fallingrandommultiplier = linespeedarray[i] * (randomness * 2) + (1 - randomness);
+					let fallingmousemultiplier = 1;
+					if (enablemouse) {
+						fallingmousemultiplier = nominaldistribution(i*spacing, mouseX, mousespeed, window.innerWidth * mousewidth) + 1;
+					}
+					v+=fallingspeed * fallingrandommultiplier * fallingmousemultiplier;
+					let endlineheight = h/fadeoutheight;
+					if (v > endlineheight + r * 1e4) {
+						linespeedarray[i] = Math.random();
+						return 0;
+					} else {
+						return v;
+					}
+				})
+			}, updatespeed);
+		}
+		
+		window.wallpaperPropertyListener = {
+			applyUserProperties: function(properties) {
+				if (properties.background) {
+					backgroundcolor = properties.background.value.split(" ").map(c => Math.ceil(c*255));
+				}
+				if (properties.opacity) {
+					opacity = properties.opacity.value;
+				}
+				if (properties.symbol) {
+					symbolcolor = properties.symbol.value.split(" ").map(c => Math.ceil(c*255));
+				}
+				if (properties.linecount) {
+					setUserDefinedLines(properties.linecount.value);
+				}
+				if (properties.autolines) {
+					autolines = properties.autolines.value;
+					updateLines();
+				}
+				if (properties.fallingspeed) {
+					fallingspeed = properties.fallingspeed.value;
+				}
+				if (properties.updatespeed) {
+					updatespeed = properties.updatespeed.value;
+					startAnimation();
+				}
+				if (properties.scaling) {
+					scaling = properties.scaling.value;
+					updateLines();
+					startAnimation();
+				}
+				if (properties.fadeoutheight) 
+					fadeoutheight = properties.fadeoutheight.value;
+				if (properties.defaultchars) 
+					defaultChars = properties.defaultchars.value;
+				if (properties.chars) 
+					charArray = properties.chars.value.split("");
+				if (properties.spacing) {
+					spacing = properties.spacing.value;
+					updateLines();
+				}
+				if (properties.randomness) 
+					randomness = properties.randomness.value;
+				if (properties.enablemouse) 
+					enablemouse = properties.enablemouse.value;
+				if (properties.mousespeed) 
+					mousespeed = properties.mousespeed.value;
+				if (properties.mousewidth) 
+					mousewidth = properties.mousewidth.value;
+			}
+		};
+		
+		function onDocumentMouseMove( event ) {
+			if (!enablemouse) return;
+			mouseX = event.clientX;
+			mouseY = event.clientY;
+		}
+		document.addEventListener( 'mousemove', onDocumentMouseMove, false );
+		
+		startAnimation();
+		
+	</script>
 </body>
 
 </html>
